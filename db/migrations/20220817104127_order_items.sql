@@ -4,10 +4,10 @@ CREATE TABLE order_items (
     amount INT NOT NULL,
     user_id INT NOT NULL,
     product_id INT NOT NULL,
-    status_id INT NOT NULL,
+    status_order_items_id INT NOT NULL,
     CONSTRAINT fk_order_items_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_order_items_product_id FOREIGN KEY (product_id) REFERENCES products (id),
-    CONSTRAINT fk_order_items_status_id FOREIGN KEY (status_id) REFERENCES status (id)
+    CONSTRAINT fk_order_items_status_order_items_id FOREIGN KEY (status_order_items_id) REFERENCES status_order_items (id)
 );
 
 -- migrate:down

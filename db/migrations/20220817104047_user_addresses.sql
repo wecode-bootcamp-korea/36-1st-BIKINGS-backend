@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE user_address (
+CREATE TABLE user_addresses (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     address VARCHAR(100),
@@ -7,4 +7,4 @@ CREATE TABLE user_address (
 );
 
 -- migrate:down
-DROP TABLE user_address;
+DROP TABLE user_addresses;

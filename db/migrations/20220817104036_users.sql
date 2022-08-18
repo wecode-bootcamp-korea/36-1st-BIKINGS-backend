@@ -4,7 +4,7 @@ CREATE TABLE users (
     name VARCHAR(50) NOT NULL,
     username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
-    birth INT NOT NULL,
+    birth DATE NOT NULL,
     contact VARCHAR(20),
     point INT NOT NULL DEFAULT 10000000,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
