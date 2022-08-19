@@ -2,14 +2,15 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
-dotenv.config();
+// const bodyParser = require('body-parser');
 
+dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 app.use(cors());
-
 const routes = require('./routes');
+
 app.use(routes);
 
 const port = process.env.PORT;
