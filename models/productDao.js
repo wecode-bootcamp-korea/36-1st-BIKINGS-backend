@@ -142,7 +142,13 @@ const getProductDetails = async (product_id) => {
 
 const getProductsByTags = async (tags) => {
     try {     
-        
+        const allTags = await myDataSource.query(
+                            `SELECT
+                                id,
+                                name
+                            FROM tags`
+        );
+
         const query = "('" + tags.join("','") + "')";
 
         const tagInfo = await myDataSource.query(
@@ -179,17 +185,36 @@ const getProductsByTags = async (tags) => {
                                 `);
         
         productInfo.forEach((obj) => {
-                    obj.tags = [];
+                    obj.intTags = [];
         });
 
         productTags.forEach((obj) => {
-            productInfo[obj.product_id-1].tags.push(obj.tag_id);
+            productInfo[obj.product_id-1].intTags.push(obj.tag_id);
         });
 
         const result = productInfo.filter((obj) => {
-                            return obj.tags.sort().join(',') === tagsInIds.sort().join(','); 
+                            if (tagsInIds.sort().join(',').length < obj.intTags.sort().join(',').length) {
+                                return obj.intTags.includes(...tagsInIds)
+                                // console.log(obj.tags);
+                                // console.log(tagsInIds);
+                            } else {
+                                return obj.intTags.sort().join(',') === tagsInIds.sort().join(','); 
+                            }
         })
 
+        result.forEach((obj) => {
+            obj.tags = [];
+        })
+
+        result.forEach((obj) => {
+            obj.intTags.forEach((e) => {
+                obj.tags.push(allTags[e-1].name);
+            });
+
+            delete obj.intTags;
+        });
+
+        
         return result;
         
     } catch (err) {
