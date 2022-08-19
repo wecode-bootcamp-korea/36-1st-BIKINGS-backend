@@ -1,6 +1,6 @@
 const productService = require('../services/productService');
 
-const getProductsCovers =  async (req, res) => {
+const getProductsCovers = async (req, res) => {
     try {
         const page_num = req.params.page_num;
 
@@ -12,12 +12,11 @@ const getProductsCovers =  async (req, res) => {
 
         return res.status(201).json(getProductsCovers);
     } catch (err) {
-        console.log(err);
         return res.status(err.statusCode || 500).json({message: err.message});
     }
 };
 
-const getProductsDetails =  async (req, res) => {
+const getProductsDetails = async (req, res) => {
     try {
         const product_id = req.params.product_id;
         
@@ -29,12 +28,29 @@ const getProductsDetails =  async (req, res) => {
 
         return res.status(201).json(getProductsDetails);
     } catch (err) {
-        console.log(err);
         return res.status(err.statusCode || 500).json({message: err.message});
     }
 };
 
+const getProductsByTags = async (req, res) => {
+    const tags = req.body.tags;
+
+    try {
+        if (!tags) {
+            return res.status(400).json({message: 'KEY_ERROR'});
+        }
+    
+        const getProductsByTags = await productService.getProductsByTags(tags);
+    
+        return res.status(201).json({getProductsByTags});
+    } catch (err) {
+        return res.status(err.statusCode || 500).json({message: err.message});
+    }
+    
+}
+
 module.exports = {
     getProductsCovers,
-    getProductsDetails
+    getProductsDetails,
+    getProductsByTags
 }

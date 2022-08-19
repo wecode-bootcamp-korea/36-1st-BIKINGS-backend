@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/covers/:page_num', productController.getProductsCovers);
 router.get('/details/:product_id', productController.getProductsDetails);
+router.get('/tags', productController.getProductsByTags);
 
 module.exports = {
     router
