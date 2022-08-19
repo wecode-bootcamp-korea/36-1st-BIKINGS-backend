@@ -195,8 +195,6 @@ const getProductsByTags = async (tags) => {
         const result = productInfo.filter((obj) => {
                             if (tagsInIds.sort().join(',').length < obj.intTags.sort().join(',').length) {
                                 return obj.intTags.includes(...tagsInIds)
-                                // console.log(obj.tags);
-                                // console.log(tagsInIds);
                             } else {
                                 return obj.intTags.sort().join(',') === tagsInIds.sort().join(','); 
                             }
