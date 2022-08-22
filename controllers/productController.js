@@ -1,4 +1,3 @@
-const { SoftDeleteQueryBuilder } = require('typeorm/query-builder/SoftDeleteQueryBuilder');
 const productService = require('../services/productService');
 
 const getProductsCovers = async (req, res) => {
