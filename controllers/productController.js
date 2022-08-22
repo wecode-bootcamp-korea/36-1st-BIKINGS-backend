@@ -1,3 +1,4 @@
+const { SoftDeleteQueryBuilder } = require('typeorm/query-builder/SoftDeleteQueryBuilder');
 const productService = require('../services/productService');
 
 const getProductsCovers = async (req, res) => {
@@ -32,15 +33,28 @@ const getProductsDetails = async (req, res) => {
     }
 };
 
+const getTags = async (req, res) => {
+    try {
+        const getTags = await productService.getTags();
+
+        return res.status(201).json(getTags);
+    } catch (err) {
+        return res.status(err.statusCode || 500).json({message: err.message});
+    }
+};
+
 const getProductsByTags = async (req, res) => {
-    const tags = req.body.tags;
+    const tags = req.params.tag_ids.split(',');
+    const numTags = tags.map(str => {
+        return Number(str)
+    });
 
     try {
         if (!tags) {
             return res.status(400).json({message: 'KEY_ERROR'});
         }
     
-        const getProductsByTags = await productService.getProductsByTags(tags);
+        const getProductsByTags = await productService.getProductsByTags(numTags);
     
         return res.status(201).json({getProductsByTags});
     } catch (err) {
@@ -52,5 +66,6 @@ const getProductsByTags = async (req, res) => {
 module.exports = {
     getProductsCovers,
     getProductsDetails,
+    getTags,
     getProductsByTags
 }

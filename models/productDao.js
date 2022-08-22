@@ -41,7 +41,7 @@ const getTags = async () => {
                             arrTagNames.push(obj.name);
         });
         
-        return [arrTagIds, arrTagNames];
+        return [arrTagIds, arrTagNames, tagInfo];
     } catch (err) {
         const error = new Error("SOMETHING IS WRONG");
         error.statusCode = 500;
@@ -140,7 +140,31 @@ const getProductDetails = async (product_id) => {
     }
 };
 
-const getProductsByTags = async (tags) => {
+const hasTagBunches = async (numTags) => {
+    try {
+        const tagBunchesWithNumTags = await myDataSource.query(
+                                    `SELECT
+                                        product_id,
+                                        tag_id
+                                    FROM tag_bunches
+                                    WHERE tag_id IN (${numTags})
+                                    ORDER BY product_id`
+        );
+
+        const prod_ids = [];
+        tagBunchesWithNumTags.forEach((obj) => {
+            prod_ids.push(obj.product_id);
+        });
+
+        return prod_ids;
+    } catch (err) {
+        const error = new Error("SOMETHING IS WRONG");
+        error.statusCode = 500;
+        throw error;
+    }
+}
+
+const getProductsByTags = async (numTags) => {
     try {     
         const allTags = await myDataSource.query(
                             `SELECT
@@ -148,21 +172,6 @@ const getProductsByTags = async (tags) => {
                                 name
                             FROM tags`
         );
-
-        const query = "('" + tags.join("','") + "')";
-
-        const tagInfo = await myDataSource.query(
-                            `SELECT
-                                id,
-                                name
-                            FROM tags
-                            WHERE name IN ${query}` 
-        );
-        
-        const tagsInIds = [];
-        tags.forEach((e) => {
-                        tagsInIds.push(tagInfo[tags.indexOf(e)].id);
-        }); 
 
         const productInfo = await myDataSource.query(
                                 `SELECT
@@ -183,9 +192,9 @@ const getProductsByTags = async (tags) => {
                                 ON tb.tag_id = t.id
                                 ORDER BY tb.product_id
                                 `);
-        
+
         productInfo.forEach((obj) => {
-                    obj.intTags = [];
+            obj.intTags = [];
         });
 
         productTags.forEach((obj) => {
@@ -193,12 +202,10 @@ const getProductsByTags = async (tags) => {
         });
 
         const result = productInfo.filter((obj) => {
-                            if (tagsInIds.sort().join(',').length < obj.intTags.sort().join(',').length) {
-                                return obj.intTags.includes(...tagsInIds)
-                            } else {
-                                return obj.intTags.sort().join(',') === tagsInIds.sort().join(','); 
-                            }
-        })
+            return numTags.every((e) => {
+                        return obj.intTags.includes(e);
+                    });
+        });
 
         result.forEach((obj) => {
             obj.tags = [];
@@ -212,7 +219,6 @@ const getProductsByTags = async (tags) => {
             delete obj.intTags;
         });
 
-        
         return result;
         
     } catch (err) {
@@ -227,5 +233,6 @@ module.exports = {
     getTags,
     getProductCovers,
     getProductDetails,
+    hasTagBunches,
     getProductsByTags
 }
