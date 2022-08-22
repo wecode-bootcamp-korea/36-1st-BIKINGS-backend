@@ -1,15 +1,15 @@
 const productDao = require('../models/productDao');
 
-const getProductsCovers = async (page_num) => {
+const getProductsCovers = async (limit, offset) => {
     const getProductIds = await productDao.getProductIds();
 
-    if (((6*page_num) - getProductIds.length) >= 6 || page_num == 0) {
-        const err = new Error("INVALID_PAGE_NUMBER");
+    if (offset > getProductIds.length) {
+        const err = new Error("INVALID_OFFSET_OR_LIMIT");
         err.statusCode = 404;
         throw err;
     }
 
-    const getProductCovers = await productDao.getProductCovers(page_num);
+    const getProductCovers = await productDao.getProductCovers(limit, offset);
     
     return getProductCovers;
 };

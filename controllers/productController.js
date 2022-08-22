@@ -2,13 +2,14 @@ const productService = require('../services/productService');
 
 const getProductsCovers = async (req, res) => {
     try {
-        const page_num = req.params.page_num;
+        const limit = req.params.limit;
+        const offset = req.params.offset;
 
-        if (!page_num) {
+        if (!limit || !offset) {
             return res.status(400).json({message: 'KEY_ERROR'});
         }
 
-        const getProductsCovers = await productService.getProductsCovers(page_num);
+        const getProductsCovers = await productService.getProductsCovers(limit, offset);
 
         return res.status(201).json(getProductsCovers);
     } catch (err) {

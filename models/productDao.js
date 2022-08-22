@@ -14,7 +14,6 @@ const getProductIds = async () => {
         });
         
         return arrIds;
-
     } catch (err) {
         const error = new Error("SOMETHING IS WRONG");
         error.statusCode = 500;
@@ -22,15 +21,10 @@ const getProductIds = async () => {
     }
 };
 
-const getProductCovers = async (page_num) => {
+const getProductCovers = async (limit, offset) => {
     try {
-        const timesBy = page_num - 1;
-        const limitOffset = 6;
-        const arrIds = [];
-        [1,2,3,4,5,6].forEach((e) => {
-                                arrIds.push(e+(limitOffset*timesBy));
-        });
-        
+        console.log(limit);
+        console.log(offset);
         const productInfo = await myDataSource.query(
                                 `SELECT
                                     id,
@@ -38,9 +32,16 @@ const getProductCovers = async (page_num) => {
                                     cover_image_url,
                                     price
                                 FROM products
-                                WHERE id IN (${String(arrIds)})
+                                ORDER BY id
+                                LIMIT ${limit} 
+                                OFFSET ${offset}
                                 `);
         
+        const arrProductIds = [];
+        productInfo.forEach((obj) => {
+            arrProductIds.push(obj.id);
+        });
+
         const productTags = await myDataSource.query(
                                 `SELECT
                                     tb.product_id,
@@ -49,16 +50,18 @@ const getProductCovers = async (page_num) => {
                                 FROM tag_bunches tb
                                 INNER JOIN tags t
                                 ON tb.tag_id = t.id
-                                WHERE tb.product_id IN (${String(arrIds)})
+                                WHERE tb.product_id IN (${String(arrProductIds)})
                                 ORDER BY tb.product_id
                                 `);
         
+        console.log(productTags);
+
         productInfo.forEach((obj) => {
                                 obj.tags = [];
         })
 
         productTags.forEach((obj) => {
-                                productInfo[obj.product_id - (limitOffset*timesBy) - 1].tags.push(obj.name);
+                                productInfo[obj.product_id - offset - 1].tags.push(obj.name);
         })
 
         return productInfo;
