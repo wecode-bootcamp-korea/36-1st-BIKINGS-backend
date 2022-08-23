@@ -2,3 +2,8 @@
 node_modules/
 db/schema.sql
 .vscode
+utils/products.CSV
+utils/tags.CSV
+utils/tag_bunches.CSV
+utils/csvImporter.js
+utils/queryManager.js
