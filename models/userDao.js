@@ -44,7 +44,7 @@ const userAddr = async (id, address)=>{
     try{
         return await appDataSource.query(
             `
-            INSERT INTO user_address (
+            INSERT INTO user_addresses (
             user_id,
             address
             ) VALUES (

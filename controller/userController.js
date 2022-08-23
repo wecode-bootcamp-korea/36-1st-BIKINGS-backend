@@ -7,10 +7,10 @@ try{
     if(!name||!username||!password||!birth||!contact||!address){
        res.status(400).json({message : 'KEY_ERROR'});
     }
-    const a = await userService.signUp(name,username, password, birth, contact, point);
+    await userService.signUp(name,username, password, birth, contact, point);
     const userId = await userService.findUserId(username);
-    // const b = await userService.userAddr(userId, address);
-    console.log(a, userId)
+    await userService.userAddr(userId[0].id,address);
+   
     return res.status(201).json({message : "success"});
 }catch(err){
     return res.status(err.statusCode || 400).json({MESSAGE : err.message})
