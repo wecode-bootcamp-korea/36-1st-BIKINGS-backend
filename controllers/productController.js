@@ -2,8 +2,8 @@ const productService = require('../services/productService');
 
 const getProductsCovers = async (req, res) => {
     try {
-        const limit = req.params.limit;
-        const offset = req.params.offset;
+        const limit = req.query.limit;
+        const offset = req.query.offset;
 
         if (!limit || !offset) {
             return res.status(400).json({message: 'KEY_ERROR'});

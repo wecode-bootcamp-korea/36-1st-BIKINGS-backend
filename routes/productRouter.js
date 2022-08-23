@@ -3,7 +3,7 @@ const productController = require('../controllers/productController');
 
 const router = express.Router();
 
-router.get('/products/:limit/:offset', productController.getProductsCovers);
+router.get('/products', productController.getProductsCovers);
 
 module.exports = {
     router
