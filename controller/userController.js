@@ -3,28 +3,17 @@ const userService = require("../services/userService")
 const signUp = async(req, res)=> {
 try{
     const point = process.env.POINT;
-    const {name,username, password, birth, contact} = req.body;
-    if(!name||!username||!password||!birth||!contact){
+    const {name,username, password, birth, contact, address} = req.body;
+    if(!name||!username||!password||!birth||!contact||!address){
        res.status(400).json({message : 'KEY_ERROR'});
     }
-    const pwValidation = new RegExp(
-        '^[a-zA-Z0-9]{4,10}$'
-      );
-      const userNameValidation = new RegExp(
-        '^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$'
-      );
-      if (!pwValidation.test(password)) {
-        return res.status(400).json({ message:"INVALID USER" });
-      }
-      if(!userNameValidation.test(username)){
-        return res.status(400).json({ message:"INVALID USER" });
-      }
-    await userService.signUp(name,username, password, birth, contact, point);
+    const a = await userService.signUp(name,username, password, birth, contact, point);
+    const userId = await userService.findUserId(username);
+    // const b = await userService.userAddr(userId, address);
+    console.log(a, userId)
     return res.status(201).json({message : "success"});
-}catch{
-    const error = new Error("failed");
-    error.statusCode = 400;
-    throw error
+}catch(err){
+    return res.status(err.statusCode || 400).json({MESSAGE : err.message})
 }   
 }
 
@@ -37,20 +26,23 @@ const gettingUserInfo=async(req,res)=>{
         const userInfo = await userService.gettingUserInfo(id);
         return res.status(201).json({message : "get_user_info_success", data : userInfo})
     } catch(err) {
-        return res.status(err.statusCode || 500).json({MESSAGE : "get_user_info_failed"})
+        return res.status(err.statusCode || 400).json({MESSAGE : "get_user_info_failed"})
     }
 }
 
 const deleteUser=async(req,res)=>{
-    const {username} = req.body;
-    if(!username){
-       return res.status(400).json({message : 'KEY_ERROR'});
+    try{
+        const {username} = req.body;
+        if(!username){
+        return res.status(400).json({message : 'KEY_ERROR'});
     }
-
-    await userService.deleteUser(username);
-    return res.status(204).json({
+        await userService.deleteUser(username);
+        return res.status(204).json({
         message : "delete_user_success"
     })
+    }catch(err){
+        return res.status(err.statusCode || 400).json({MESSAGE : err.MESSAGE})
+    }
 }
 
 const logIn =async (req,res)=>{
@@ -65,7 +57,7 @@ try {
     }
     return res.status(400).json({MESSAGE : "login failed"});
 }catch(err){
-    return res.status(err.statusCode || 500).json({MESSAGE : err.MESSAGE})
+    return res.status(err.statusCode || 400).json({MESSAGE : err.MESSAGE})
     }
 }
 module.exports = {
