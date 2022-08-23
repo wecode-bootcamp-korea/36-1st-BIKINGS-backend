@@ -23,8 +23,6 @@ const getProductIds = async () => {
 
 const getProductCovers = async (limit, offset) => {
     try {
-        console.log(limit);
-        console.log(offset);
         const productInfo = await myDataSource.query(
                                 `SELECT
                                     id,
@@ -53,8 +51,6 @@ const getProductCovers = async (limit, offset) => {
                                 WHERE tb.product_id IN (${String(arrProductIds)})
                                 ORDER BY tb.product_id
                                 `);
-        
-        console.log(productTags);
 
         productInfo.forEach((obj) => {
                                 obj.tags = [];
