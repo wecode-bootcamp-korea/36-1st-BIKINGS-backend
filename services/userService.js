@@ -3,14 +3,7 @@ const bcrypt = require("../utils/bcrypt")
 const jwt = require("../utils/jwt");
 const salt = Number(process.env.SALT);
 
-const errorFunc = (value, str)=>{
-    const error = new Error(str);
-    error.statusCode = value;
-    throw error;
-}
-
 const signUp= async(name,username, password, birth, contact, point)=>{
-    try{
         const pwValidation = new RegExp(
             '^[a-zA-Z0-9]{4,10}$'
           );
@@ -31,47 +24,27 @@ const signUp= async(name,username, password, birth, contact, point)=>{
                 name,username, hashed, birth, contact, point
                 )
         }
-    }catch{
-        errorFunc(400, "failied")
-    }
 }
 
 const findUserId= async(username)=>{
-    try{
         return await userDao.findUserId(username);
-    }catch{
-        errorFunc(400, "failied")
-    }
 }
 
 const userAddr= async(id, address)=>{
-    try{
         return await userDao.userAddr(id, address);
-    }catch{
-        errorFunc(400, "failied")
-    }
 }
 
 const gettingUserInfo = async (id)=>{
-    try{
         return await userDao.gettingUserInfo(id);
-     }catch{
-        errorFunc(400, "failied")
-     }
 }
 
 const deleteUser = async(username)=>{
-    try{
         return await userDao.deleteUser(
          username
          )
-     }catch(err){
-        errorFunc(400, "failied")
-     }
 }
 
 const logIn=async(username, password)=>{
-    try{
         const newUser = await userDao.isNew(username);
         const zeroOrOne=Number(Object.values(newUser[0])[0]);
         if(zeroOrOne === 0) return false;
@@ -86,9 +59,6 @@ const logIn=async(username, password)=>{
             return jwt.makeToken(payLoad)
         }
         else return auth;
-    }catch{
-        errorFunc(400, "failied")
-    }
 }
 
 module.exports={

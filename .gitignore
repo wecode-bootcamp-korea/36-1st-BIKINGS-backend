@@ -2,3 +2,5 @@
 node_modules/
 db/schema.sql
 .vscode
+awsdb.sql
+.gitignore
