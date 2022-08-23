@@ -42,7 +42,7 @@ const getProductDetails = async (product_id) => {
                         `SELECT 
                         p.id,
                         p.name,
-                        p.cover_image_url,
+                        p.detail_image_url,
                         p.price,
                         JSON_ARRAYAGG(
                             t.name
