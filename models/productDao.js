@@ -4,16 +4,16 @@ const getProductIds = async () => {
     try {
         const productIds = await myDataSource.query(
                             `SELECT
-                                id
+                                JSON_ARRAYAGG(
+                                    id
+                                ) AS ids
                             FROM products
                             `);
         
-        const arrIds = [];
-        productIds.forEach((obj) => {
-                                arrIds.push(obj.id);
-        });
-        
-        return arrIds;
+        const len = productIds[0].ids.length;
+        const ids = productIds[0].ids.slice(1,len-1).split(', ');
+
+        return ids;
     } catch (err) {
         const error = new Error("SOMETHING IS WRONG");
         error.statusCode = 500;
@@ -24,44 +24,31 @@ const getProductIds = async () => {
 const getProductCovers = async (limit, offset) => {
     try {
         const productInfo = await myDataSource.query(
-                                `SELECT
-                                    id,
-                                    name,
-                                    cover_image_url,
-                                    price
-                                FROM products
-                                ORDER BY id
-                                LIMIT ${limit} 
-                                OFFSET ${offset}
-                                `);
-        
-        const arrProductIds = [];
-        productInfo.forEach((obj) => {
-            arrProductIds.push(obj.id);
+            `SELECT 
+                p.id,
+                p.name,
+                p.cover_image_url,
+                p.price,
+                JSON_ARRAYAGG(
+                    t.name
+                ) AS tags
+                FROM products p
+                JOIN tag_bunches tb
+                ON tb.product_id = p.id
+                INNER JOIN tags t
+                ON t.id = tb.tag_id
+                GROUP BY p.id
+                ORDER BY p.id
+                LIMIT ${limit}
+                OFFSET ${offset}`
+        );
+
+        productInfo.map((obj) => {
+            const len = obj.tags.length;
+            obj.tags = obj.tags.slice(2,len-2).split('", "');
         });
 
-        const productTags = await myDataSource.query(
-                                `SELECT
-                                    tb.product_id,
-                                    tb.tag_id,
-                                    t.name
-                                FROM tag_bunches tb
-                                INNER JOIN tags t
-                                ON tb.tag_id = t.id
-                                WHERE tb.product_id IN (${String(arrProductIds)})
-                                ORDER BY tb.product_id
-                                `);
-
-        productInfo.forEach((obj) => {
-                                obj.tags = [];
-        })
-
-        productTags.forEach((obj) => {
-                                productInfo[obj.product_id - offset - 1].tags.push(obj.name);
-        })
-
         return productInfo;
-
     } catch (err) {
         const error = new Error("INVALID");
         error.statusCode = 500;
