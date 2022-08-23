@@ -67,8 +67,7 @@ const getProductCovers = async (limit, offset) => {
         error.statusCode = 500;
         throw error;
     }
-}
-
+};
 
 module.exports = {
     getProductIds,
