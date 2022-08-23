@@ -14,6 +14,22 @@ const getProductsCovers = async (limit, offset) => {
     return getProductCovers;
 };
 
+
+const getProductsDetails = async (product_id) => {
+    const getProductIds = await productDao.getProductIds();
+    
+    if (!getProductIds.includes(Number(product_id))) {
+        const err = new Error("NO_SUCH_DATA");
+        err.statusCode = 404;
+        throw err;
+    }
+
+    const getProductDetails = await productDao.getProductDetails(product_id);
+
+    return getProductDetails;
+};
+
 module.exports = {
-    getProductsCovers
+    getProductsCovers,
+    getProductsDetails
 }

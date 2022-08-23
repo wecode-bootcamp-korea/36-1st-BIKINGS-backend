@@ -36,7 +36,32 @@ const getProductCovers = async (limit, offset) => {
         return productInfo;
 };
 
+
+const getProductDetails = async (product_id) => {
+    const productInfo = await myDataSource.query(
+                        `SELECT 
+                        p.id,
+                        p.name,
+                        p.cover_image_url,
+                        p.price,
+                        JSON_ARRAYAGG(
+                            t.name
+                            ) AS tags
+                        FROM products p
+                        JOIN tag_bunches tb
+                        ON tb.product_id = p.id
+                        INNER JOIN tags t
+                        ON t.id = tb.tag_id
+                        WHERE p.id = ${product_id}
+                        GROUP BY p.id
+                        ORDER BY p.id
+                        `);
+
+    return productInfo;
+};
+
 module.exports = {
     getProductIds,
-    getProductCovers
+    getProductCovers,
+    getProductDetails
 }
