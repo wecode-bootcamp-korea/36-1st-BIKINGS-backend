@@ -2,5 +2,13 @@
 node_modules/
 db/schema.sql
 .vscode
+
 awsdb.sql
 .gitignore
+
+utils/products.CSV
+utils/tags.CSV
+utils/tag_bunches.CSV
+utils/csvImporter.js
+utils/queryManager.js
+

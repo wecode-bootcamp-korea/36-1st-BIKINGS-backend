@@ -1,7 +1,7 @@
-const {appDataSource} = require("../utils/dataSource");
+const {myDataSource} = require("../utils/dataSource");
 
 const createUser = async(name,username, hashed, birth, contact, point)=>{
-        return await appDataSource.query(
+        return await myDataSource.query(
             `
             INSERT INTO users(
                 name,
@@ -18,7 +18,7 @@ const createUser = async(name,username, hashed, birth, contact, point)=>{
 }
 
 const findUserId = async(username)=>{
-        return await appDataSource.query(
+        return await myDataSource.query(
             `
             SELECT users.id
             FROM users
@@ -28,7 +28,7 @@ const findUserId = async(username)=>{
 }
 
 const userAddr = async (id, address)=>{
-        return await appDataSource.query(
+        return await myDataSource.query(
             `
             INSERT INTO user_addresses (
             user_id,
@@ -43,7 +43,7 @@ const userAddr = async (id, address)=>{
 
 
 const gettingUserInfo = async(id)=>{
-        return await appDataSource.query(`
+        return await myDataSource.query(`
             SELECT 
                 * 
             FROM users
@@ -53,7 +53,7 @@ const gettingUserInfo = async(id)=>{
 }
 
 const deleteUser = async(username)=>{
-        return await appDataSource.query(
+        return await myDataSource.query(
             `
             DELETE 
             FROM users
@@ -63,7 +63,7 @@ const deleteUser = async(username)=>{
 }
 
 const logIn = async(username)=>{
-        return await appDataSource.query(
+        return await myDataSource.query(
             `
         SELECT *
         FROM users
@@ -73,7 +73,7 @@ const logIn = async(username)=>{
 }
 
 const isNew=async(username)=>{
-        return await appDataSource.query(
+        return await myDataSource.query(
         `
         SELECT EXISTS(
             SELECT *
