@@ -19,15 +19,34 @@ const getProductsDetails = async (product_id) => {
     const getProductDetails = await productDao.getProductDetails(product_id);
     
     if (!getProductDetails[0]) {
-        const err = new Error("NO_SUCH_PRODUCT_ID");
+        const err = new Error("NO_SUCH_DATA");
         err.statusCode = 404;
         throw err;
     }
 
     return getProductDetails;
+}
+
+const getTags = async () => {
+    const getTags = await productDao.getTags();
+
+    return getTags;
 };
 
+const getProductsByTags = async (numTags) => {
+    const getProductsByTags = await productDao.getProductsByTags(numTags);
+    
+    if (!getProductsByTags) {
+        const err = new Error('NO_SUCH_DATA');
+        err.statusCode = 404;
+        throw err;
+    }
+
+    return getProductsByTags;
+}
 module.exports = {
     getProductsCovers,
-    getProductsDetails
+    getProductsDetails,
+    getTags,
+    getProductsByTags
 }
