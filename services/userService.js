@@ -51,7 +51,11 @@ const logIn=async(username, password)=>{
   else return auth;
 }
 
+const gettingUserInfo = async (id)=>{
+  return await userDao.gettingUserInfo(id);
+}
+
 
 module.exports={
-    signUp, findUserId, userAddr, logIn
+    signUp, findUserId, userAddr, logIn, gettingUserInfo
 }

@@ -33,6 +33,19 @@ const logIn =async (req,res)=>{
         }
     }
 
+    const gettingUserInfo=async(req,res)=>{
+        try{
+            const {id} = req.body;
+            if(!id){
+               return res.status(400).json({message : 'KEY_ERROR'});
+            }
+            const userInfo = await userService.gettingUserInfo(id);
+            return res.status(201).json({message : "get_user_info_success", data : userInfo})
+        } catch(err) {
+            return res.status(err.statusCode || 400).json({MESSAGE : "get_user_info_failed"})
+        }
+    }
+
 module.exports = {
-    signUp,logIn
+    signUp,logIn,gettingUserInfo
 }

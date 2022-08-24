@@ -62,6 +62,16 @@ const logIn = async(username)=>{
     )
 }
 
+const gettingUserInfo = async(id)=>{
+    return await myDataSource.query(`
+        SELECT 
+            * 
+        FROM users
+        WHERE users.id=?
+        `,[id]
+    );
+}
+
 module.exports={
-    createUser,isNew, userAddr, findUserId, logIn
+    createUser,isNew, userAddr, findUserId, logIn, gettingUserInfo
 }
