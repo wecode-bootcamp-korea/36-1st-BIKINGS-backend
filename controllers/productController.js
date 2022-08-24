@@ -11,12 +11,29 @@ const getProductsCovers = async (req, res) => {
 
         const getProductsCovers = await productService.getProductsCovers(limit, offset);
 
-        return res.status(201).json(getProductsCovers);
+        return res.status(200).json(getProductsCovers);
+    } catch (err) {
+        return res.status(err.statusCode || 500).json({message: err.message});
+    }
+};
+
+const getProductsDetails = async (req, res) => {
+    try {
+        const {product_id} = req.params;
+
+        if (!product_id) {
+            return res.status(400).json({message: 'KEY_ERROR'});
+        }
+
+        const getProductsDetails = await productService.getProductsDetails(product_id);
+
+        return res.status(200).json(getProductsDetails);
     } catch (err) {
         return res.status(err.statusCode || 500).json({message: err.message});
     }
 };
 
 module.exports = {
-    getProductsCovers
+    getProductsCovers,
+    getProductsDetails
 }
