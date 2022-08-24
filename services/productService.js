@@ -16,15 +16,13 @@ const getProductsCovers = async (limit, offset) => {
 
 
 const getProductsDetails = async (product_id) => {
-    const getProductIds = await productDao.getProductIds();
+    const getProductDetails = await productDao.getProductDetails(product_id);
     
-    if (!getProductIds.includes(Number(product_id))) {
-        const err = new Error("NO_SUCH_DATA");
+    if (!getProductDetails[0]) {
+        const err = new Error("NO_SUCH_PRODUCT_ID");
         err.statusCode = 404;
         throw err;
     }
-
-    const getProductDetails = await productDao.getProductDetails(product_id);
 
     return getProductDetails;
 };
