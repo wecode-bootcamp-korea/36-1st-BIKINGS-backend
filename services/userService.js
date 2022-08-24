@@ -55,7 +55,12 @@ const gettingUserInfo = async (id)=>{
   return await userDao.gettingUserInfo(id);
 }
 
+const deleteUser = async(username)=>{
+  return await userDao.deleteUser(
+   username
+   )
+}
 
 module.exports={
-    signUp, findUserId, userAddr, logIn, gettingUserInfo
+    signUp, findUserId, userAddr, logIn, gettingUserInfo,deleteUser
 }

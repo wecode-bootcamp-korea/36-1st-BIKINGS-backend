@@ -72,6 +72,16 @@ const gettingUserInfo = async(id)=>{
     );
 }
 
+const deleteUser = async(username)=>{
+    return await myDataSource.query(
+        `
+        DELETE 
+        FROM users
+        WHERE users.username ="${username}"
+        `
+    )
+}
+
 module.exports={
-    createUser,isNew, userAddr, findUserId, logIn, gettingUserInfo
+    createUser,isNew, userAddr, findUserId, logIn, gettingUserInfo,deleteUser
 }

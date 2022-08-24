@@ -46,6 +46,21 @@ const logIn =async (req,res)=>{
         }
     }
 
+    const deleteUser=async(req,res)=>{
+        try{
+            const {username} = req.body;
+            if(!username){
+            return res.status(400).json({message : 'KEY_ERROR'});
+        }
+            await userService.deleteUser(username);
+            return res.status(204).json({
+            message : "delete_user_success"
+        })
+        }catch(err){
+            return res.status(err.statusCode || 400).json({MESSAGE : err.MESSAGE})
+        }
+    }
+
 module.exports = {
-    signUp,logIn,gettingUserInfo
+    signUp,logIn,gettingUserInfo,deleteUser
 }
