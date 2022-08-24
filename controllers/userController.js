@@ -17,6 +17,22 @@ try{
 }   
 }
 
+const logIn =async (req,res)=>{
+    try {
+        const {username, password} = req.body;
+        if(!username||!password){
+            return res.status(400).json({message : 'id, password invalid'})
+        }
+        const token = await userService.logIn(username, password);
+        if(token){
+            return res.status(201).json({MESSAGE : "login success", TOKEN : token});
+        }
+        return res.status(400).json({MESSAGE : "login failed"});
+    }catch(err){
+        return res.status(err.statusCode || 400).json({MESSAGE : err.MESSAGE})
+        }
+    }
+
 module.exports = {
-    signUp
+    signUp,logIn
 }
