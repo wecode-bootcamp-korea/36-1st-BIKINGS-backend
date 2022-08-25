@@ -1,7 +1,6 @@
 const {myDataSource} = require('../utils/dataSource');
 
 const allUserIds = async () => {
-    try {
         const userIds = await myDataSource.query(
                 `SELECT
                     JSON_ARRAYAGG(
@@ -11,15 +10,9 @@ const allUserIds = async () => {
         );
 
         return userIds[0].ids;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const allStatusOrderIds = async () => {
-    try {
         const statusOrderIds = await myDataSource.query(
                 `SELECT
                     JSON_ARRAYAGG(
@@ -29,15 +22,9 @@ const allStatusOrderIds = async () => {
         );
 
         return statusOrderIds[0].ids;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const allAddressIdsOfUserId = async (user_id) => {
-    try {
         const addressIdsOfUserId = await myDataSource.query(
                 `SELECT
                     JSON_ARRAYAGG(
@@ -48,15 +35,9 @@ const allAddressIdsOfUserId = async (user_id) => {
         );
     
         return addressIdsOfUserId[0].ids;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const postOrders = async (user_id, status_order_id, user_address_id) => {
-    try {
         const postOrders = await myDataSource.query(
             `INSERT INTO orders(
                 user_id,
@@ -68,15 +49,9 @@ const postOrders = async (user_id, status_order_id, user_address_id) => {
         );
 
         return postOrders['insertId'];
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const allProductIds = async () => {
-    try {
         const productIds = await myDataSource.query(
             `SELECT
                 JSON_ARRAYAGG(
@@ -86,15 +61,9 @@ const allProductIds = async () => {
         );
 
         return productIds[0].ids;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const allStatusOrderItemIds = async () => {
-    try {
         const statusOrderItemIds = await myDataSource.query(
             `SELECT 
                 JSON_ARRAYAGG(
@@ -104,15 +73,9 @@ const allStatusOrderItemIds = async () => {
         );
 
         return statusOrderItemIds[0].ids;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const allOrderItemIds = async () => {
-    try {
         const orderItemIds = await myDataSource.query(
             `SELECT
                 JSON_ARRAYAGG(
@@ -122,15 +85,9 @@ const allOrderItemIds = async () => {
         );
 
         return orderItemIds[0].ids;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const getProductStock = async (product_id) => {
-    try {
         const stockOfProductId = await myDataSource.query(
             `SELECT
                 stock
@@ -141,15 +98,9 @@ const getProductStock = async (product_id) => {
         const stock = stockOfProductId[0].stock;
 
         return stock;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const postOrderItems = async (product_id, status_order_item_id, amount, order_id) => {
-    try {
         const postOrderItems = await myDataSource.query(
             `INSERT INTO order_items(
                 product_id,
@@ -162,15 +113,9 @@ const postOrderItems = async (product_id, status_order_item_id, amount, order_id
         );
 
         return postOrderItems['insertId'];
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const allOrderIds = async () => {
-    try {
         const orderIds = await myDataSource.query(
             `SELECT
                 JSON_ARRAYAGG(
@@ -180,15 +125,9 @@ const allOrderIds = async () => {
         );
 
         return orderIds[0].ids;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const getOrderByOrderId = async (order_id) => {
-    try {
         const orderOfOrderId = await myDataSource.query(
             `SELECT
                 o.id AS order_id,
@@ -209,15 +148,9 @@ const getOrderByOrderId = async (order_id) => {
         );
         
         return orderOfOrderId;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const getOrderItemByOrderItemId = async (order_item_id) => {
-    try {
         const orderItemByOrderItemId = await myDataSource.query(
             `SELECT
                 oi.id AS order_item_id,
@@ -238,43 +171,26 @@ const getOrderItemByOrderItemId = async (order_item_id) => {
         );
 
         return orderItemByOrderItemId;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 // ------------------------- LINE 77 ----------------------------
 
 const deleteOrders = async (order_id) => {
-    try {
         const deleteOrders = await myDataSource.query(
             `DELETE FROM orders
             WHERE orders.id = ${order_id}`
         );
 
         return deleteOrders;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 const deleteOrderItems = async (order_item_id) => {
-    try {
         const deleteOrderItems = await myDataSource.query(
             `DELETE FROM order_items
             WHERE order_items.id = ${order_item_id}`
         );
 
         return deleteOrderItems;
-    } catch (err) {
-        const error = new Error('SOMETHING IS WRONG');
-        error.statusCode = 500;
-        throw err;
-    }
 };
 
 module.exports = {
