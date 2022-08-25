@@ -1,9 +1,10 @@
 const express = require('express');
 const orderController = require('../controllers/orderController');
+const jwt = require("../utils/jwt");
 
 const router = express.Router();
 
-router.post("", orderController.postOrders);
+router.post("",jwt.validationToken, orderController.postOrders);
 
 module.exports = {
     router
