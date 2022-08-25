@@ -68,7 +68,7 @@ const postOrders = async (user_id, status_order_id, user_address_id) => {
             [user_id, status_order_id, user_address_id]
         );
 
-        return postOrders;
+        return postOrders['insertId'];
     } catch (err) {
         const error = new Error('SOMETHING IS WRONG');
         error.statusCode = 500;
