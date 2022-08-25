@@ -11,15 +11,18 @@ const signUp= async(name,username, password, birth, contact, point)=>{
             '^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$'
           );
           if (!pwValidation.test(password)) {
-            return res.status(400).json({ message:"INVALID USER" });
+            const error = new Error("key_error");
+            error.statusCode = 400;
+            throw error;
           }
           if(!userNameValidation.test(username)){
-            return res.status(400).json({ message:"INVALID USER" });
+                const error = new Error("key_error");
+                error.statusCode = 400;
+                throw error;
           }
         const newUser = await userDao.isNew(username);
         const zeroOrOne = Number(Object.values(newUser[0])[0])
         if(!zeroOrOne){
-               
             const hashed = await bcrypt.makeHash(password, salt)
             return await userDao.createUser(
                 name,username, hashed, birth, contact, point
@@ -62,15 +65,11 @@ const logIn=async(username, password)=>{
         else return auth;
 }
 
-const pointOut=async(price,user_id)=>{
-        return await userDao.pointOut(user_id, price)
-}
-
 const findUserAddress=async(user_id)=>{
         return await userDao.findUserAddress(user_id);
 }
 
 module.exports={
-    signUp, gettingUserInfo, deleteUser,logIn, findUserId, createUserAddress, pointOut,
+    signUp, gettingUserInfo, deleteUser,logIn, findUserId, createUserAddress,
     findUserAddress
 }

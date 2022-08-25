@@ -5,14 +5,13 @@ try{
     const point = process.env.POINT;
     const {name,username, password, birth, contact, address} = req.body;
     if(!name||!username||!password||!birth||!contact||!address){
-       return res.status(400).json({message : 'failed'});
+        res.status(400).json({message : 'failed'});
     }
     const userId = await userService.signUp(name,username, password, birth, contact, point);
-    console.log(userId)
     await userService.createUserAddress(userId,address);
-    return res.status(201).json({message : "success"});
+    res.status(201).json({message : "success"});
 }catch(err){
-    return res.status(err.statusCode || 400).json({MESSAGE : err.message})
+    res.status(err.statusCode || 400).json({MESSAGE : err.message})
 }   
 }
 
@@ -20,12 +19,12 @@ const gettingUserInfo=async(req,res)=>{
     try{
         const {id} = req.body;
         if(!id){
-           return res.status(400).json({message : 'failed'});
+           res.status(400).json({message : 'failed'});
         }
         const userInfo = await userService.gettingUserInfo(id);
-        return res.status(201).json({message : "success", data : userInfo})
+           res.status(201).json({message : "success", data : userInfo})
     } catch(err) {
-        return res.status(err.statusCode || 400).json({MESSAGE : "failed"})
+           res.status(err.statusCode || 400).json({MESSAGE : "failed"})
     }
 }
 
@@ -52,25 +51,11 @@ try {
     }
     const token = await userService.logIn(username, password);
     if(token){
-        return res.status(201).json({message : "success", message : token});
+        return res.status(201).json({message : "success", token : token});
     }
-    return res.status(400).json({message : "failed"});
+     return res.status(400).json({message : "failed"});
 }catch(err){
-    return res.status(err.statusCode || 400).json({message : err.MESSAGE})
-    }
-}
-
-const pointOut= async(req,res)=>{
-    try{
-        const {id} = req.body;
-        const {price} = req.params;
-        await userService.pointOut(price, id);
-        if(!price){
-            return res.status(400).json({message : "failed"})
-        }
-        return res.status(201).json({MESSAGE : "success"});
-    }catch{
-        return res.status(400).json({message : "failed"})
+      return res.status(err.statusCode || 400).json({message : err.MESSAGE})
     }
 }
 
@@ -78,12 +63,12 @@ const findUserAddress=async(req,res)=>{
     try{
         const {id} = req.body;
         const userAddress = await userService.findUserAddress(id);
-        return res.status(201).json({MESSAGE : "success", data : userAddress});
+         res.status(201).json({message : "success", data : userAddress});
     }catch(err){
-        return res.status(400).json({message : "failed"})
+         res.status(400).json({message : "failed"})
     }
 }
 
 module.exports = {
-    signUp,gettingUserInfo,deleteUser,logIn,pointOut,findUserAddress
+    signUp,gettingUserInfo,deleteUser,logIn,findUserAddress
 }

@@ -87,17 +87,7 @@ const isNew=async(username)=>{
         )
 }
 
-const pointOut=async(user_id, price)=>{
-    return await myDataSource.query(
-        `
-        UPDATE users 
-        SET point =users.point-? 
-        WHERE users.id = ?;
-        `,[price, user_id]
-    )
-}
-
 module.exports={
-    createUser, gettingUserInfo, deleteUser, logIn,isNew, createUserAddress, pointOut,
+    createUser, gettingUserInfo, deleteUser, logIn,isNew, createUserAddress,
     findUserAddress
 }
