@@ -28,5 +28,8 @@ const validationToken = async (req,res,next)=>{
 }
 
 module.exports ={
-    makeToken, isRightToken, validationToken
+    makeToken, 
+    isRightToken, 
+    validationToken
 } 
+
