@@ -34,6 +34,13 @@
 - 제품 상세페이지(GET)
 - 마이페이지(GET)
 - 회원탈퇴(DELETE)
+- 구매 상품 추가(POST)
+- 구매 묶음 추가(POST)
+- 구매 상품 조회(GET)
+- 구매 묶음 조회(GET)
+- 구매 상품 수정(PATCH)
+- 구매 상품 삭제(DELETE)
+- 구매 묶음 삭제(DELETE)
 
 
 # API Documentation
