@@ -7,3 +7,6 @@ utils/tags.CSV
 utils/tag_bunches.CSV
 utils/csvImporter.js
 utils/queryManager.js
+utils/status.CSV
+utils/users.CSV
+utils/user_addresses.CSV
