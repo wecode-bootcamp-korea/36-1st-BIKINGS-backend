@@ -26,21 +26,23 @@
 
 
 # Features
-- 회원가입(POST)
-- 로그인(POST)
-- 장바구니(POST, GET)
-- 주문하기(POST)
-- 제품 리스트(GET)
-- 제품 상세페이지(GET)
-- 마이페이지(GET)
-- 회원탈퇴(DELETE)
-- 구매 상품 추가(POST)
-- 구매 묶음 추가(POST)
-- 구매 상품 조회(GET)
-- 구매 묶음 조회(GET)
-- 구매 상품 수정(PATCH)
-- 구매 상품 삭제(DELETE)
-- 구매 묶음 삭제(DELETE)
+- 이석원: 회원가입(POST)
+- 이석원: 로그인(POST)
+- 이석원: 장바구니(POST, GET)
+- 이석원: 주문하기(POST)
+- 이석원: 마이페이지(GET)
+- 이석원: 회원탈퇴(DELETE)
+- 박근우: 다수의 제품 기본 정보 조회(paginationed) (GET)
+- 박근우: 제품 상세페이지(GET)
+- 박근우: 제품 필터링 검색(GET) 
+- 박근우: 전체 태그 조회(GET)
+- 박근우: 구매 상품 추가(POST)
+- 박근우: 구매 묶음 추가(POST)
+- 박근우: 구매 상품 조회(GET)
+- 박근우: 구매 묶음 조회(GET)
+- 박근우: 구매 상품 수정(PATCH)
+- 박근우: 구매 상품 삭제(DELETE)
+- 박근우: 구매 묶음 삭제(DELETE)
 
 
 # API Documentation
